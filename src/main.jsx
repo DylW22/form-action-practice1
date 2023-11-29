@@ -9,18 +9,46 @@ import Products from './Products.jsx'
 import Product from './Product.jsx'
 import { ProductsLoader } from './Products.jsx'
 import { formAction } from './Contact.jsx'
-
+import Login from './Login.jsx'
 import Help from './Help.jsx'
 import Contact from './Contact.jsx'
+import SensitiveData from './SensitiveData.jsx'
+import { ProtectedLoader } from './ProtectedLoader.jsx'
+import ProtectedRoutes from './ProtectedRoutes.jsx'
+import ExtraSensitive from './ExtraSensitive.jsx'
+import SignUp from './SignUp.jsx'
+import { AccessFormData } from './SignUp.jsx'
+import {storage, firebaseApp} from './firebaseConfig'
+
+/*
+  Should ProtectedLoader be on the parent or child element?
+
+  Pros/cons:
+  Parent element can protect children without needing multiple loaders.
+
+  Cons: 
+  Cannot have a rendered Header/Footer?? Cannot have pages where authentication is not required ?
+*/
+
 const router = createBrowserRouter([
   {
     element: <RootLayout/>,
     path: '/',
+    loader: ProtectedLoader,
     children : [{
-      path: '/',
-      element: <Child1/>
+      path: '/profile',
+      element: <SensitiveData/>
     }]
-}, 
+}, {
+    element: <ProtectedRoutes>
+      <SensitiveData/>
+    </ProtectedRoutes>,
+    path: 'details', 
+    children: [{
+      element: <ExtraSensitive/>,
+      path: 'secret'
+    }]
+},
 {
     element: <Products />,
     path: 'products',
@@ -40,6 +68,15 @@ const router = createBrowserRouter([
     path: 'contact',
     action: formAction
   }]
+},
+{
+  element: <Login/>,
+  path: 'login'
+},
+{
+  element: <SignUp/>,
+  path: 'signup',
+  action: AccessFormData
 }
 
 ])

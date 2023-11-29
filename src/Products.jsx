@@ -14,7 +14,7 @@ const Products = () => {
 }
 
 export default Products;
-
+/*
 export const ProductsLoader = async () => {
     const res = await fetch('https://fakestoreapi.com/products')
     .then((result) => {
@@ -25,4 +25,14 @@ export const ProductsLoader = async () => {
     })
     return res;
 }
-
+*/
+export const ProductsLoader = () => {
+    const res =  fetch('https://fakestoreapi.com/products')
+    .then ((result) => {
+        return result.json();
+    })
+    .catch((error) => {
+        console.error("Could not retrieve data: ", error)
+    })
+    return res;
+}
